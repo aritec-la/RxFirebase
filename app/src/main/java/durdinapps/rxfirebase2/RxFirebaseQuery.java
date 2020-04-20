@@ -1,6 +1,7 @@
 package durdinapps.rxfirebase2;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -8,10 +9,11 @@ import com.google.firebase.database.Query;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
-import io.reactivex.functions.Function;
+
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Function;
 
 import static durdinapps.rxfirebase2.RxFirebaseDatabase.observeMultipleSingleValueEvent;
 import static durdinapps.rxfirebase2.RxFirebaseDatabase.observeSingleValueEvent;
@@ -100,7 +102,7 @@ public class RxFirebaseQuery {
 
         return whereMaybe.toFlowable().flatMap(new Function<DatabaseReference[], Flowable<DataSnapshot>>() {
             @Override
-            public Flowable<DataSnapshot> apply(@io.reactivex.annotations.NonNull DatabaseReference[] keys) throws Exception {
+            public Flowable<DataSnapshot> apply(@NonNull DatabaseReference[] keys) throws Exception {
                 return observeMultipleSingleValueEvent(keys);
             }
         });

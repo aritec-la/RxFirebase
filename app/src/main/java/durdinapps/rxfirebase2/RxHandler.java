@@ -1,7 +1,6 @@
 package durdinapps.rxfirebase2;
 
-
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -9,7 +8,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import durdinapps.rxfirebase2.exceptions.RxFirebaseNullDataException;
-import io.reactivex.MaybeEmitter;
+import io.reactivex.rxjava3.core.MaybeEmitter;
 
 public class RxHandler<T> implements OnSuccessListener<T>, OnFailureListener, OnCompleteListener<T> {
 

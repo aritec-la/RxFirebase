@@ -1,7 +1,8 @@
 package durdinapps.rxfirebase2;
 
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 public class RxFirebaseChildEvent<T> {
 

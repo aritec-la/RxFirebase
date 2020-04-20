@@ -1,6 +1,7 @@
 package durdinapps.rxfirebase2;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -17,22 +18,22 @@ import java.util.Iterator;
 import java.util.Map;
 
 import durdinapps.rxfirebase2.exceptions.RxFirebaseDataException;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
-import io.reactivex.MaybeSource;
-import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
-import io.reactivex.functions.Cancellable;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.core.BackpressureStrategy;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.FlowableEmitter;
+import io.reactivex.rxjava3.core.FlowableOnSubscribe;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.MaybeEmitter;
+import io.reactivex.rxjava3.core.MaybeOnSubscribe;
+import io.reactivex.rxjava3.core.MaybeSource;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleEmitter;
+import io.reactivex.rxjava3.core.SingleOnSubscribe;
+import io.reactivex.rxjava3.functions.Cancellable;
+import io.reactivex.rxjava3.functions.Function;
 
 import static durdinapps.rxfirebase2.DataSnapshotMapper.DATA_SNAPSHOT_EXISTENCE_PREDICATE;
 
@@ -212,7 +213,7 @@ public class RxFirebaseDatabase {
      */
     @NonNull
     public static Flowable<RxFirebaseChildEvent<DataSnapshot>> observeChildEvent(
-        @NonNull final Query query, @NonNull BackpressureStrategy strategy) {
+            @NonNull final Query query, @NonNull BackpressureStrategy strategy) {
         return Flowable.create(new FlowableOnSubscribe<RxFirebaseChildEvent<DataSnapshot>>() {
             @Override
             public void subscribe(final FlowableEmitter<RxFirebaseChildEvent<DataSnapshot>> emitter) throws Exception {
@@ -221,28 +222,28 @@ public class RxFirebaseDatabase {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                         emitter.onNext(
-                            new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot, previousChildName,
-                                RxFirebaseChildEvent.EventType.ADDED));
+                                new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot, previousChildName,
+                                        RxFirebaseChildEvent.EventType.ADDED));
                     }
 
                     @Override
                     public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
                         emitter.onNext(
-                            new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot, previousChildName,
-                                RxFirebaseChildEvent.EventType.CHANGED));
+                                new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot, previousChildName,
+                                        RxFirebaseChildEvent.EventType.CHANGED));
                     }
 
                     @Override
                     public void onChildRemoved(DataSnapshot dataSnapshot) {
                         emitter.onNext(new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot,
-                            RxFirebaseChildEvent.EventType.REMOVED));
+                                RxFirebaseChildEvent.EventType.REMOVED));
                     }
 
                     @Override
                     public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
                         emitter.onNext(
-                            new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot, previousChildName,
-                                RxFirebaseChildEvent.EventType.MOVED));
+                                new RxFirebaseChildEvent<>(dataSnapshot.getKey(), dataSnapshot, previousChildName,
+                                        RxFirebaseChildEvent.EventType.MOVED));
                     }
 
                     @Override
@@ -272,13 +273,13 @@ public class RxFirebaseDatabase {
     @NonNull
     public static Flowable<DataSnapshot> observeMultipleSingleValueEvent(@NonNull DatabaseReference... whereRefs) {
         return Maybe.merge(Flowable.fromArray(whereRefs)
-            .map(new Function<DatabaseReference, MaybeSource<? extends DataSnapshot>>() {
-                @Override
-                public MaybeSource<? extends DataSnapshot> apply(@NonNull DatabaseReference databaseReference) throws
-                    Exception {
-                    return observeSingleValueEvent(databaseReference);
-                }
-            })
+                .map(new Function<DatabaseReference, MaybeSource<? extends DataSnapshot>>() {
+                    @Override
+                    public MaybeSource<? extends DataSnapshot> apply(@NonNull DatabaseReference databaseReference) throws
+                            Exception {
+                        return observeSingleValueEvent(databaseReference);
+                    }
+                })
         );
     }
 
@@ -354,8 +355,8 @@ public class RxFirebaseDatabase {
      */
     @NonNull
     public static <T> Flowable<RxFirebaseChildEvent<T>> observeChildEvent(
-        @NonNull final Query query, @NonNull final Class<T> clazz,
-        @NonNull BackpressureStrategy strategy) {
+            @NonNull final Query query, @NonNull final Class<T> clazz,
+            @NonNull BackpressureStrategy strategy) {
         return observeChildEvent(query, DataSnapshotMapper.ofChildEvent(clazz), strategy);
     }
 
@@ -385,8 +386,8 @@ public class RxFirebaseDatabase {
     public static <T> Maybe<T> observeSingleValueEvent(@NonNull final Query query,
                                                        @NonNull final Function<? super DataSnapshot, ? extends T> mapper) {
         return observeSingleValueEvent(query)
-            .filter(DATA_SNAPSHOT_EXISTENCE_PREDICATE)
-            .map(mapper);
+                .filter(DATA_SNAPSHOT_EXISTENCE_PREDICATE)
+                .map(mapper);
     }
 
     /**
@@ -399,8 +400,8 @@ public class RxFirebaseDatabase {
      */
     @NonNull
     public static <T> Flowable<RxFirebaseChildEvent<T>> observeChildEvent(
-        @NonNull final Query query, @NonNull final Function<? super RxFirebaseChildEvent<DataSnapshot>,
-        ? extends RxFirebaseChildEvent<T>> mapper, @NonNull BackpressureStrategy strategy) {
+            @NonNull final Query query, @NonNull final Function<? super RxFirebaseChildEvent<DataSnapshot>,
+            ? extends RxFirebaseChildEvent<T>> mapper, @NonNull BackpressureStrategy strategy) {
         return observeChildEvent(query, strategy).map(mapper);
     }
 
@@ -424,7 +425,7 @@ public class RxFirebaseDatabase {
      */
     @NonNull
     public static Flowable<RxFirebaseChildEvent<DataSnapshot>> observeChildEvent(
-        @NonNull final Query query) {
+            @NonNull final Query query) {
         return observeChildEvent(query, BackpressureStrategy.DROP);
     }
 
@@ -463,7 +464,7 @@ public class RxFirebaseDatabase {
      */
     @NonNull
     public static <T> Flowable<RxFirebaseChildEvent<T>> observeChildEvent(
-        @NonNull final Query query, @NonNull final Class<T> clazz) {
+            @NonNull final Query query, @NonNull final Class<T> clazz) {
         return observeChildEvent(query, DataSnapshotMapper.ofChildEvent(clazz), BackpressureStrategy.DROP);
     }
 
@@ -488,8 +489,8 @@ public class RxFirebaseDatabase {
      */
     @NonNull
     public static <T> Flowable<RxFirebaseChildEvent<T>> observeChildEvent(
-        @NonNull final Query query, @NonNull final Function<? super RxFirebaseChildEvent<DataSnapshot>,
-        ? extends RxFirebaseChildEvent<T>> mapper) {
+            @NonNull final Query query, @NonNull final Function<? super RxFirebaseChildEvent<DataSnapshot>,
+            ? extends RxFirebaseChildEvent<T>> mapper) {
         return observeChildEvent(query, BackpressureStrategy.DROP).map(mapper);
     }
 }

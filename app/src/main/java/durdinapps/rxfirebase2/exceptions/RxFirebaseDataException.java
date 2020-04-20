@@ -1,6 +1,7 @@
 package durdinapps.rxfirebase2.exceptions;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DatabaseError;
 
@@ -19,7 +20,7 @@ public class RxFirebaseDataException extends Exception {
     @Override
     public String toString() {
         return "RxFirebaseDataException{" +
-            "error=" + error +
-            '}';
+                "error=" + error +
+                '}';
     }
 }

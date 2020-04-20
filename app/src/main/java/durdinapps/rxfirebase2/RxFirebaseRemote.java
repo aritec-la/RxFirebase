@@ -1,12 +1,13 @@
 package durdinapps.rxfirebase2;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
 
 public class RxFirebaseRemote {
 

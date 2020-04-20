@@ -1,6 +1,7 @@
 package durdinapps.rxfirebase2;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -9,12 +10,12 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.MaybeEmitter;
+import io.reactivex.rxjava3.core.MaybeOnSubscribe;
 
 public class RxFirebaseUser {
 

@@ -1,7 +1,8 @@
 package durdinapps.rxfirebase2;
 
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -10,8 +11,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.functions.Predicate;
+
 
 public abstract class DocumentSnapshotMapper<T, U> implements Function<T, U> {
 
@@ -70,9 +72,13 @@ public abstract class DocumentSnapshotMapper<T, U> implements Function<T, U> {
         public List<U> apply(final QuerySnapshot querySnapshot) throws Exception {
             List<U> items = new ArrayList<>();
             for (DocumentSnapshot documentSnapshot : querySnapshot) {
-                items.add(mapper != null
-                    ? mapper.apply(documentSnapshot)
-                    : getDataSnapshotTypedValue(documentSnapshot, clazz));
+                try {
+                    items.add(mapper != null
+                            ? mapper.apply(documentSnapshot)
+                            : getDataSnapshotTypedValue(documentSnapshot, clazz));
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             return items;
         }

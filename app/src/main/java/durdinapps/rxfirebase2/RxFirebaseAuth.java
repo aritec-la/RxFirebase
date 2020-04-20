@@ -1,6 +1,7 @@
 package durdinapps.rxfirebase2;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.ActionCodeResult;
 import com.google.firebase.auth.AuthCredential;
@@ -9,16 +10,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 
-import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.functions.Cancellable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.MaybeEmitter;
+import io.reactivex.rxjava3.core.MaybeOnSubscribe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.functions.Cancellable;
+
 
 public class RxFirebaseAuth {
 
@@ -191,7 +193,7 @@ public class RxFirebaseAuth {
      */
     @NonNull
     public static Completable updateCurrentUser(@NonNull final FirebaseAuth firebaseAuth,
-                                                     @NonNull final FirebaseUser newUser) {
+                                                @NonNull final FirebaseUser newUser) {
         return Completable.create(new CompletableOnSubscribe() {
             @Override
             public void subscribe(CompletableEmitter emitter) throws Exception {

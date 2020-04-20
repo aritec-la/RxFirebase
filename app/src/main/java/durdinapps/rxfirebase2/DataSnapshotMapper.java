@@ -1,6 +1,6 @@
 package durdinapps.rxfirebase2;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.GenericTypeIndicator;
@@ -10,9 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import durdinapps.rxfirebase2.exceptions.RxFirebaseDataCastException;
-import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
+import io.reactivex.rxjava3.exceptions.Exceptions;
+import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.functions.Predicate;
 
 public abstract class DataSnapshotMapper<T, U> implements Function<T, U> {
 
@@ -49,11 +49,11 @@ public abstract class DataSnapshotMapper<T, U> implements Function<T, U> {
             value = dataSnapshot.getValue(clazz);
         } catch (Exception ex) {
             throw Exceptions.propagate(new RxFirebaseDataCastException(
-                "There was a problem trying to cast " + dataSnapshot.toString() + " to " + clazz.getSimpleName(), ex));
+                    "There was a problem trying to cast " + dataSnapshot.toString() + " to " + clazz.getSimpleName(), ex));
         }
         if (value == null) {
             throw Exceptions.propagate(new RxFirebaseDataCastException(
-                "The value after cast  " + dataSnapshot.toString() + " to " + clazz.getSimpleName() + "is null."));
+                    "The value after cast  " + dataSnapshot.toString() + " to " + clazz.getSimpleName() + "is null."));
         }
         return value;
     }
@@ -90,9 +90,13 @@ public abstract class DataSnapshotMapper<T, U> implements Function<T, U> {
         public List<U> apply(final DataSnapshot dataSnapshot) throws Exception {
             List<U> items = new ArrayList<>();
             for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                items.add(mapper != null
-                    ? mapper.apply(childSnapshot)
-                    : getDataSnapshotTypedValue(childSnapshot, clazz));
+                try {
+                    items.add(mapper != null
+                            ? mapper.apply(childSnapshot)
+                            : getDataSnapshotTypedValue(childSnapshot, clazz));
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
             }
             return items;
         }
@@ -129,14 +133,14 @@ public abstract class DataSnapshotMapper<T, U> implements Function<T, U> {
             U value = dataSnapshot.getValue(genericTypeIndicator);
             if (value == null) {
                 throw Exceptions.propagate(new RxFirebaseDataCastException(
-                    "unable to cast firebase data response to generic type"));
+                        "unable to cast firebase data response to generic type"));
             }
             return value;
         }
     }
 
     private static class ChildEventDataSnapshotMapper<U>
-        extends DataSnapshotMapper<RxFirebaseChildEvent<DataSnapshot>, RxFirebaseChildEvent<U>> {
+            extends DataSnapshotMapper<RxFirebaseChildEvent<DataSnapshot>, RxFirebaseChildEvent<U>> {
 
         private final Class<U> clazz;
 
@@ -149,10 +153,10 @@ public abstract class DataSnapshotMapper<T, U> implements Function<T, U> {
             DataSnapshot dataSnapshot = rxFirebaseChildEvent.getValue();
             if (dataSnapshot.exists()) {
                 return new RxFirebaseChildEvent<U>(
-                    dataSnapshot.getKey(),
-                    getDataSnapshotTypedValue(dataSnapshot, clazz),
-                    rxFirebaseChildEvent.getPreviousChildName(),
-                    rxFirebaseChildEvent.getEventType());
+                        dataSnapshot.getKey(),
+                        getDataSnapshotTypedValue(dataSnapshot, clazz),
+                        rxFirebaseChildEvent.getPreviousChildName(),
+                        rxFirebaseChildEvent.getEventType());
             } else {
                 throw Exceptions.propagate(new RuntimeException("child dataSnapshot doesn't exist"));
             }
